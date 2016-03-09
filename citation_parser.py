@@ -22,7 +22,7 @@ class ParserScholar(Author):
             print("Connection was not Successfully")
             return
 
-        return url
+        return r.url
     def get_citation_page_html(self):
         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
         print(url)
@@ -40,16 +40,20 @@ class ParserScholar(Author):
         url=self.get_scholar_url()
         href_link=""
         r=requests.get(url)
+        print(r.url)
         if r.status_code==200:
             soup=BeautifulSoup(r.content,"html.parser")
             soup.prettify()
             for link in soup.find_all('h4','gs_rt2'):
                 for a in link.find_all('a'):
                    href_link=a.get('href')
+                   print(href_link)
+
 
         else:
             print("Connection was not Successfully")
             return
+
         return href_link
 
     def get_quotes(self):
@@ -65,15 +69,15 @@ class ParserScholar(Author):
         get_quotes_list=[]
         counter=0
         for read_href in get_href_list:
-         read_href="http:"+read_href
          r=requests.get(read_href)
          print(r.url)
-
-        if r.status_code==200:
-                soup=BeautifulSoup(r.content,'html.parser')
-                for quotes in soup.find_all('div','gs_rs'):
-                 get_quotes_list.append(quotes.string)
+         if r.status_code==200:
+            soup=BeautifulSoup(r.content,'html.parser')
+            for quotes in soup.find_all('div','gs_rs'):
+                get_quotes_list.append(quotes.string)
+                print(quotes.string)
                 counter+=1
+
 
         get_quotes_list.append("\n ----------------------------------")
 
@@ -84,7 +88,7 @@ class ParserScholar(Author):
 
 
     def get_quotes_length(self,length):
-        self.isUpgrade(length)
+        self.is_upgrade(length)
         return length;
 
     def is_upgrade(self,old_length):
@@ -106,6 +110,7 @@ class ParserScholar(Author):
                             print("Updating...")
                             return is_upgrade_list
                         else:
+                            is_equal=False
                             return self.get_quotes()
 
         # eğer gelen length ile yeni length farklıysa,güncellenmesi gerekir. tekrar okuruz ve listeyi yenileriz.
@@ -114,8 +119,7 @@ class ParserScholar(Author):
 
 
     def get_parsed_bib_text_data_author(self):
-        result=Scholar_Bib_Text.query(self.get_author_name()+" "+
-        self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
+        result=Scholar_Bib_Text.query(self.get_author_name()+" "+self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
         print(result)
         return result
 
@@ -146,10 +150,11 @@ class ParserScholar(Author):
 
     def get_quotes_href_link(self):
         soup=self.get_citation_page_html()
+        print(soup)
         soup.prettify()
         quotes_href_list=[]
         for a in soup.find_all('a','gsc_a_ac'):
-          quotes_href_list.append(a.get('href'))
+         quotes_href_list.append(a.get('href'))
 
 
         return quotes_href_list
@@ -159,5 +164,7 @@ citation=ParserScholar('Ecir Uğur','Küçüksille')
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()
 #citation.get_quotes_href_link()
-citation.get_quotes()
-
+#citation.get_quotes()
+#citation.get_quotes_href_link()
+#citation.get_citation_page_href()
+#citation.get_scholar_url()

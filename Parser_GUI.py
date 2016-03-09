@@ -6,7 +6,7 @@ import requests
 from tkinter import *
 
 
-class Parser_GUI (Author,ParserScholar):
+class Parser_GUI ():
 
  fields = 'Last Name', 'First Name', 'Job', 'Country'
 
