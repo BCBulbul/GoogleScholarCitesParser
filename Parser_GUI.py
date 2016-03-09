@@ -3,7 +3,7 @@ from Author import Author
 from tkinter import *
 from citation_parser import ParserScholar
 
-class Parser_GUI (Author,ParserScholar):
+class Parser_GUI ():
 
 
  fields = 'Name', 'Surname'
