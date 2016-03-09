@@ -1,2 +1,0 @@
-class Citations:
-    name=""

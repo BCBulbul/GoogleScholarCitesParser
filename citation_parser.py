@@ -1,7 +1,4 @@
-from wsgiref import headers
-
 from Author import Author
-from Citations import Citations
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -62,13 +59,16 @@ class ParserScholar(Author):
         # okunduktan sonra her seferinde soup.find_all('div','gs_rs') aranacak ve get text denecek bunu nasıl yaparız çift for la birinci
         # for da listeden gelen her bir href için link okunur .
         # altında aranır ve atılır.
+
         get_href_list=self.get_quotes_href_link()
         print(get_href_list)
         get_quotes_list=[]
         counter=0
         for read_href in get_href_list:
+         read_href="http:"+read_href
          r=requests.get(read_href)
          print(r.url)
+
         if r.status_code==200:
                 soup=BeautifulSoup(r.content,'html.parser')
                 for quotes in soup.find_all('div','gs_rs'):
@@ -92,6 +92,7 @@ class ParserScholar(Author):
         get_href_list=self.get_quotes_href_link()
         is_upgrade_list=[]
         for read_href in get_href_list:
+            read_href="http:"+read_href
             r=requests.get(read_href)
             if r.url is not None and r.status_code==200:
                 soup=BeautifulSoup(r.content,'html.parser')
@@ -114,12 +115,12 @@ class ParserScholar(Author):
 
     def get_parsed_bib_text_data_author(self):
         result=Scholar_Bib_Text.query(self.get_author_name()+" "+
-                self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
+        self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
         print(result)
         return result
 
     def get_author_writings(self):
-        #writers=20
+        #writings=top 20
         id_list=[]
         soup=self.get_citation_page_html()
         soup.prettify()

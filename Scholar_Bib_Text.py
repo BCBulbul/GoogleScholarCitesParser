@@ -1,33 +1,5 @@
-from Author import Author
 
 #!/usr/bin/env python
-
-# gscholar - Get bibtex entries from Goolge Scholar
-# Copyright (C) 2011-2015  Bastian Venthur <venthur at debian org>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or (at
-# your option) any later version.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-
-
-"""
-Library to query Google Scholar.
-
-Call the method query with a string which contains the full search
-string. Query will return a list of citations.
-
-"""
 
 try:
     # python 2
@@ -46,13 +18,6 @@ except ImportError:
 import re
 import hashlib
 import random
-import sys
-import os
-import subprocess
-import optparse
-import logging
-
-
 # fake google id (looks like it is a 16 elements hex)
 rand_str = str(random.random()).encode('utf8')
 google_id = hashlib.md5(rand_str).hexdigest()[:16]
@@ -70,26 +35,6 @@ FORMAT_BIBTEX = 1
 
 
 def query(searchstr, outformat=FORMAT_BIBTEX, allresults=False):
-    """Query google scholar.
-
-    This method queries google scholar and returns a list of citations.
-
-    Parameters
-    ----------
-    searchstr : str
-        the query
-    outformat : int, optional
-        the output format of the citations. Default is bibtex.
-    allresults : bool, optional
-        return all results or only the first (i.e. best one)
-
-    Returns
-    -------
-    result : list of strings
-        the list with citations
-
-    """
-    logging.debug("Query: {sstring}".format(sstring=searchstr))
     searchstr = '/scholar?q='+quote(searchstr)
     url = GOOGLE_SCHOLAR_URL + searchstr
     header = HEADERS
@@ -98,10 +43,7 @@ def query(searchstr, outformat=FORMAT_BIBTEX, allresults=False):
     response = urlopen(request)
     html = response.read()
     html = html.decode('utf8')
-    # grab the links
     tmp = get_links(html, outformat)
-
-    # follow the bibtex links to get the bibtex entries
     result = list()
     if not allresults:
         tmp = tmp[:1]
@@ -116,10 +58,8 @@ def query(searchstr, outformat=FORMAT_BIBTEX, allresults=False):
 
 
 def get_links(html, outformat):
-    """Return a list of reference links from the html."""
     if outformat == FORMAT_BIBTEX:
         refre = re.compile(r'<a href="(/scholar\.bib\?[^"]*)')
-
     reflist = refre.findall(html)
     # escape html entities
     reflist = [re.sub('&(%s);' % '|'.join(name2codepoint), lambda m:
@@ -129,7 +69,6 @@ def get_links(html, outformat):
 
 
 def _get_bib_element(bibitem, element):
-    """Return element from bibitem or None."""
     lst = [i.strip() for i in bibitem.split("\n")]
     for i in lst:
         if i.startswith(element):
