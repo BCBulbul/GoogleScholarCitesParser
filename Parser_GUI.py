@@ -3,7 +3,7 @@ from Author import Author
 from tkinter import *
 from citation_parser import ParserScholar
 
-class Parser_GUI ():
+class Parser_GUI (Author,ParserScholar):
 
 
  fields = 'Name', 'Surname'
@@ -43,8 +43,8 @@ b4 = Button(root, text='Show Writings', command=root.quit)
 b4.pack(side=LEFT, padx=5, pady=5)
 b5 = Button(root, text='Show Author Bibliography', command=root.quit)
 b5.pack(side=LEFT, padx=5, pady=5)
-b5 = Button(root, text='Exit Program', command=root.quit)
-b5.pack(side=LEFT, padx=5, pady=5)
+b6 = Button(root, text='Exit Program', command=root.quit)
+b6.pack(side=LEFT, padx=5, pady=5)
 root.mainloop()
 
 
