@@ -12,6 +12,9 @@ class ParserScholar(Author):
 
 
     def get_scholar_url(self):
+
+        """ Getting  The Google Scholar url """
+
         url="https://scholar.google.com.tr/"+"scholar?hl=tr&q="+self.get_author_name()+" "+self.get_author_surname()+"&btnG=&lr="
         r=requests.get(url)
         if r.status_code==200:
@@ -24,6 +27,9 @@ class ParserScholar(Author):
 
         return r.url
     def get_citation_page_html(self):
+        """
+           This method is using The Citation Page href and getting The Citation Page Html
+        """
         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
         print(url)
         r=requests.get(url)
@@ -37,6 +43,9 @@ class ParserScholar(Author):
         return soup
 
     def get_citation_page_href(self):
+        """
+        Getting href link from Google Scholar Search Page
+        """
         url=self.get_scholar_url()
         href_link=""
         r=requests.get(url)
@@ -57,12 +66,9 @@ class ParserScholar(Author):
         return href_link
 
     def get_quotes(self):
-        # her bir href için istek gönder çünkü her birinin soup html'si farklı
-        # işimiz bittiğinde soup=none deriz. eğer soup none değilse , append listeye ----
-        # sonra soupa tekrar html belgesi gelsin yine okunsun
-        # okunduktan sonra her seferinde soup.find_all('div','gs_rs') aranacak ve get text denecek bunu nasıl yaparız çift for la birinci
-        # for da listeden gelen her bir href için link okunur .
-        # altında aranır ve atılır.
+        """
+        Getting The Quotes from Google Scholar Author Page
+        """
 
         get_href_list=self.get_quotes_href_link()
         print(get_href_list)
@@ -92,6 +98,9 @@ class ParserScholar(Author):
         return length;
 
     def is_upgrade(self,old_length):
+        """
+        This method controls all quotes and can do upgrade or not upgrade
+        """
         is_equal=False
         get_href_list=self.get_quotes_href_link()
         is_upgrade_list=[]
@@ -113,17 +122,23 @@ class ParserScholar(Author):
                             is_equal=False
                             return self.get_quotes()
 
-        # eğer gelen length ile yeni length farklıysa,güncellenmesi gerekir. tekrar okuruz ve listeyi yenileriz.
+
 
 
 
 
     def get_parsed_bib_text_data_author(self):
+        """
+         Getting The Author's Bibliography
+        """
         result=Scholar_Bib_Text.query(self.get_author_name()+" "+self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
         print(result)
         return result
 
     def get_author_writings(self):
+        """
+        Getting Author's Writings
+        """
         #writings=top 20
         id_list=[]
         soup=self.get_citation_page_html()
@@ -136,6 +151,9 @@ class ParserScholar(Author):
         return id_list
 
     def get_author_writers(self):
+        """
+        Getting The Author's Writers
+        """
         soup=self.get_citation_page_html()
         soup.prettify()
         counter=1
@@ -149,6 +167,9 @@ class ParserScholar(Author):
         return writer_list
 
     def get_quotes_href_link(self):
+        """
+        Getting The Quotes Href Link for Retrieve Data from Quotes Html Page
+        """
         soup=self.get_citation_page_html()
         print(soup)
         soup.prettify()
