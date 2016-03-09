@@ -159,7 +159,7 @@ class ParserScholar(Author):
 
         return quotes_href_list
 
-citation=ParserScholar('Ecir Uğur','Küçüksille')
+#citation=ParserScholar('Ecir Uğur','Küçüksille')
 #citation.get_citation_page_html()
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()

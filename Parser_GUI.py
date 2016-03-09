@@ -1,14 +1,12 @@
- #!/usr/bin/python3
+#!/usr/bin/python3
 from Author import Author
-from citation_parser import ParserScholar
-from bs4 import BeautifulSoup
-import requests
 from tkinter import *
-
+from citation_parser import ParserScholar
 
 class Parser_GUI ():
 
- fields = 'Last Name', 'First Name', 'Job', 'Country'
+
+ fields = 'Name', 'Surname'
 
 def fetch(entries):
    for entry in entries:
@@ -28,12 +26,25 @@ def makeform(root, fields):
       entries.append((field, ent))
    return entries
 
-   root = tkinter()
-   ents = makeform(root, fields)
-   root.bind('<Return>', (lambda event, e=ents: fetch(e)))
-   b1 = Button(root, text='Show Quotes',
-          command=(lambda e=ents: fetch(e)))
-   b1.pack(side=LEFT, padx=5, pady=5)
-   b2 = Button(root, text='Upgrade Quotes', command=root.quit)
-   b2.pack(side=LEFT, padx=5, pady=5)
-   root.mainloop()
+
+root = Tk()
+ents = makeform(root, Parser_GUI.fields)
+root.bind('<Return>', (lambda event, e=ents: fetch(e)))
+text = Text(root)
+text.pack()
+b1 = Button(root, text='Is Upgrade',
+command=(lambda e=ents: fetch(e)))
+b1.pack(side=LEFT, padx=5, pady=5)
+b2 = Button(root, text='Show Quotes', command=root.quit())
+b2.pack(side=LEFT, padx=5, pady=5)
+b3 = Button(root, text='Show Writers', command=root.quit)
+b3.pack(side=LEFT, padx=5, pady=5)
+b4 = Button(root, text='Show Writings', command=root.quit)
+b4.pack(side=LEFT, padx=5, pady=5)
+b5 = Button(root, text='Show Author Bibliography', command=root.quit)
+b5.pack(side=LEFT, padx=5, pady=5)
+b5 = Button(root, text='Exit Program', command=root.quit)
+b5.pack(side=LEFT, padx=5, pady=5)
+root.mainloop()
+
+
