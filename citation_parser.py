@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""
+Burak Can Bulbul-www.burakcanbulbul.com
+"""
+
 from Author import Author
 from bs4 import BeautifulSoup
 import requests
@@ -13,6 +19,9 @@ class ParserScholar(Author):
 
     def get_scholar_url(self):
 
+        """ Getting  The Google Scholar url """
+
+
         url="https://scholar.google.com.tr/"+"scholar?hl=tr&q="+self.get_author_name()+" "+self.get_author_surname()+"&btnG=&lr="
         r=requests.get(url)
         if r.status_code==200:
@@ -25,6 +34,9 @@ class ParserScholar(Author):
 
         return r.url
     def get_citation_page_html(self):
+        """
+           This method is using The Citation Page href and getting The Citation Page Html
+        """
 
         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
         r=requests.get(url)
@@ -38,7 +50,9 @@ class ParserScholar(Author):
         return soup.prettify()
 
     def get_citation_page_href(self):
-
+        """
+        Getting href link from Google Scholar Search Page
+        """
         url=self.get_scholar_url()
         href_link=""
         r=requests.get(url)
@@ -59,7 +73,9 @@ class ParserScholar(Author):
         return href_link
 
     def get_quotes(self):
-
+        """
+        Getting The Quotes from Google Scholar Author Page
+        """
 
         get_href_list=self.get_quotes_href_link()
         print(get_href_list)
@@ -82,6 +98,36 @@ class ParserScholar(Author):
             print(get_quotes_list.__getitem__(i))
         self.get_quotes_length(counter)
         return get_quotes_list
+    def get_author_writings(self):
+        """
+        Getting Author's Writings
+        """
+        #writings=top 20
+        id_list=[]
+        soup=self.get_citation_page_html()
+        soup.prettify()
+        for td in soup.find_all('td','gsc_a_t'):
+            for a in td.find_all('a','gsc_a_at'):
+                id_list.append(a.string)
+                print(a.string)
+
+        return id_list
+
+    def get_author_writers(self):
+        """
+        Getting The Author's Writers
+        """
+        soup=self.get_citation_page_html()
+        soup.prettify()
+        counter=1
+        writer_list=[]
+        for div in soup.find_all('div','gs_gray'):
+            if counter % 2 == 1:
+                writer_list.append(div.string)
+
+            counter+=1
+
+        return writer_list
 
 
     def get_quotes_length(self,length):
@@ -89,7 +135,9 @@ class ParserScholar(Author):
         return length;
 
     def is_upgrade(self,old_length):
-
+        """
+        This method controls all quotes and can do upgrade or not upgrade
+        """
         is_equal=False
         get_href_list=self.get_quotes_href_link()
         is_upgrade_list=[]
@@ -117,7 +165,9 @@ class ParserScholar(Author):
 
 
     def get_parsed_bib_text_data_author(self):
-
+        """
+        Getting The Author's Bibliography
+        """
         result=Scholar_Bib_Text.query(self.get_author_name()+" "+self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
         print(result)
         return result
@@ -125,15 +175,28 @@ class ParserScholar(Author):
 
 
     def get_quotes_href_link(self):
-
+        """
+        Getting The Quotes Href Link for Retrieve Data from Quotes Html Page
+        """
         soup=self.get_citation_page_html()
         print(soup)
         soup.prettify()
         quotes_href_list=[]
         for a in soup.find_all('a','gsc_a_ac'):
-         quotes_href_list.append(a.get('href'))
+            if a.get('href') is '':
+                continue
+            else:
+              quotes_href_list.append(a.get('href'))
 
 
         return quotes_href_list
 
 citation=ParserScholar('Ecir Uğur','Küçüksille')
+#citation.get_citation_page_html()
+#citation.get_parsed_bib_text_data_author()
+#citation.get_author_writings()
+#citation.get_quotes_href_link()
+#citation.get_quotes()
+#citation.get_quotes_href_link()
+#citation.get_citation_page_href()
+#citation.get_scholar_url()
