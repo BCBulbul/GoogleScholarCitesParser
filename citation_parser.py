@@ -31,7 +31,6 @@ class ParserScholar(Author):
            This method is using The Citation Page href and getting The Citation Page Html
         """
         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
-        print(url)
         r=requests.get(url)
         if r.status_code==200:
             print("Connection Succesfully")
@@ -40,7 +39,7 @@ class ParserScholar(Author):
 
         else:
             print("Connection was not Successfully")
-        return soup
+        return soup.prettify()
 
     def get_citation_page_href(self):
         """
@@ -135,36 +134,7 @@ class ParserScholar(Author):
         print(result)
         return result
 
-    def get_author_writings(self):
-        """
-        Getting Author's Writings
-        """
-        #writings=top 20
-        id_list=[]
-        soup=self.get_citation_page_html()
-        soup.prettify()
-        for td in soup.find_all('td','gsc_a_t'):
-            for a in td.find_all('a','gsc_a_at'):
-                id_list.append(a.string)
-                print(a.string)
 
-        return id_list
-
-    def get_author_writers(self):
-        """
-        Getting The Author's Writers
-        """
-        soup=self.get_citation_page_html()
-        soup.prettify()
-        counter=1
-        writer_list=[]
-        for div in soup.find_all('div','gs_gray'):
-            if counter % 2 == 1:
-                writer_list.append(div.string)
-
-            counter+=1
-
-        return writer_list
 
     def get_quotes_href_link(self):
         """
@@ -180,7 +150,7 @@ class ParserScholar(Author):
 
         return quotes_href_list
 
-#citation=ParserScholar('Ecir Uğur','Küçüksille')
+citation=ParserScholar('Ecir Uğur','Küçüksille')
 #citation.get_citation_page_html()
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()
