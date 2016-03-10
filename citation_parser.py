@@ -13,8 +13,6 @@ class ParserScholar(Author):
 
     def get_scholar_url(self):
 
-        """ Getting  The Google Scholar url """
-
         url="https://scholar.google.com.tr/"+"scholar?hl=tr&q="+self.get_author_name()+" "+self.get_author_surname()+"&btnG=&lr="
         r=requests.get(url)
         if r.status_code==200:
@@ -27,9 +25,7 @@ class ParserScholar(Author):
 
         return r.url
     def get_citation_page_html(self):
-        """
-           This method is using The Citation Page href and getting The Citation Page Html
-        """
+
         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
         r=requests.get(url)
         if r.status_code==200:
@@ -42,9 +38,7 @@ class ParserScholar(Author):
         return soup.prettify()
 
     def get_citation_page_href(self):
-        """
-        Getting href link from Google Scholar Search Page
-        """
+
         url=self.get_scholar_url()
         href_link=""
         r=requests.get(url)
@@ -65,9 +59,7 @@ class ParserScholar(Author):
         return href_link
 
     def get_quotes(self):
-        """
-        Getting The Quotes from Google Scholar Author Page
-        """
+
 
         get_href_list=self.get_quotes_href_link()
         print(get_href_list)
@@ -97,9 +89,7 @@ class ParserScholar(Author):
         return length;
 
     def is_upgrade(self,old_length):
-        """
-        This method controls all quotes and can do upgrade or not upgrade
-        """
+
         is_equal=False
         get_href_list=self.get_quotes_href_link()
         is_upgrade_list=[]
@@ -127,9 +117,7 @@ class ParserScholar(Author):
 
 
     def get_parsed_bib_text_data_author(self):
-        """
-         Getting The Author's Bibliography
-        """
+
         result=Scholar_Bib_Text.query(self.get_author_name()+" "+self.get_author_surname(),Scholar_Bib_Text.FORMAT_BIBTEX)
         print(result)
         return result
@@ -137,9 +125,7 @@ class ParserScholar(Author):
 
 
     def get_quotes_href_link(self):
-        """
-        Getting The Quotes Href Link for Retrieve Data from Quotes Html Page
-        """
+
         soup=self.get_citation_page_html()
         print(soup)
         soup.prettify()
@@ -151,11 +137,3 @@ class ParserScholar(Author):
         return quotes_href_list
 
 citation=ParserScholar('Ecir Uğur','Küçüksille')
-#citation.get_citation_page_html()
-#citation.get_parsed_bib_text_data_author()
-#citation.get_author_writings()
-#citation.get_quotes_href_link()
-#citation.get_quotes()
-#citation.get_quotes_href_link()
-#citation.get_citation_page_href()
-#citation.get_scholar_url()
