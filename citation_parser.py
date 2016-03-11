@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-
-Burak Can Bulbul
-
-"""
-
 from Author import Author
 from bs4 import BeautifulSoup
 import requests
