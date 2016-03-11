@@ -5,8 +5,6 @@ class Author:
     pages=0
     year=0
     publisher=""
-
-
     def __init__(self,author_name,author_surname):
         self.author_name=author_name
         self.author_surname=author_surname
