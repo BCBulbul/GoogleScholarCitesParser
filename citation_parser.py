@@ -2,7 +2,7 @@
 
 """
 
-Burak Can Bulbul - www.burakcanbulbul.com
+Burak Can Bulbul
 
 """
 
