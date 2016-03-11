@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 """
-Burak Can Bulbul-www.burakcanbulbul.com
+
+Burak Can Bulbul
+
+This is my website - www.burakcanbulbul.com
+
 """
 
 from Author import Author
@@ -31,7 +35,7 @@ class ParserScholar(Author):
         else:
             print("Connection was not Successfully")
             return
-
+        print(r.url)
         return r.url
     def get_citation_page_html(self):
         """
@@ -47,7 +51,7 @@ class ParserScholar(Author):
 
         else:
             print("Connection was not Successfully")
-        return soup.prettify()
+        return soup
 
     def get_citation_page_href(self):
         """
@@ -86,7 +90,7 @@ class ParserScholar(Author):
          print(r.url)
          if r.status_code==200:
             soup=BeautifulSoup(r.content,'html.parser')
-            for quotes in soup.find_all('div','gs_rs'):
+            for quotes in soup.find_all('div','gs_ri'):
                 get_quotes_list.append(quotes.string)
                 print(quotes.string)
                 counter+=1
@@ -142,11 +146,10 @@ class ParserScholar(Author):
         get_href_list=self.get_quotes_href_link()
         is_upgrade_list=[]
         for read_href in get_href_list:
-            read_href="http:"+read_href
             r=requests.get(read_href)
-            if r.url is not None and r.status_code==200:
+            if r.status_code==200:
                 soup=BeautifulSoup(r.content,'html.parser')
-                for quotes in soup.find_all('div','gs_rs'):
+                for quotes in soup.find_all('div','gs_ri'):
                     is_upgrade_list.append(quotes.string)
                     if len(is_upgrade_list) is not old_length:
                         is_equal=False
@@ -157,7 +160,9 @@ class ParserScholar(Author):
                             return is_upgrade_list
                         else:
                             is_equal=False
-                            return self.get_quotes()
+                            if is_equal is False:
+                             print("The Quotations are already up to date")
+                             return self.get_quotes()
 
 
 
@@ -180,7 +185,6 @@ class ParserScholar(Author):
         """
         soup=self.get_citation_page_html()
         print(soup)
-        soup.prettify()
         quotes_href_list=[]
         for a in soup.find_all('a','gsc_a_ac'):
             if a.get('href') is '':
@@ -191,12 +195,15 @@ class ParserScholar(Author):
 
         return quotes_href_list
 
+
+
 citation=ParserScholar('Ecir Uğur','Küçüksille')
-#citation.get_citation_page_html()
+citation.get_citation_page_html()
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()
 #citation.get_quotes_href_link()
-#citation.get_quotes()
-#citation.get_quotes_href_link()
-#citation.get_citation_page_href()
-#citation.get_scholar_url()
+citation.get_quotes()
+citation.get_quotes_href_link()
+citation.get_citation_page_href()
+citation.get_scholar_url()
+

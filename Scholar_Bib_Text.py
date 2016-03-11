@@ -1,6 +1,8 @@
 
 #!/usr/bin/env python
 
+#Thanks to Venthur.
+
 try:
     # python 2
     from urllib2 import Request, urlopen, quote
