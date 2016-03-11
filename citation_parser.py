@@ -2,9 +2,7 @@
 
 """
 
-Burak Can Bulbul
-
-This is my website - www.burakcanbulbul.com
+Burak Can Bulbul - www.burakcanbulbul.com
 
 """
 
@@ -19,7 +17,7 @@ class ParserScholar(Author):
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/41.0.2272.76 Chrome/41.0.2272.76 Safari/537.36',
     'accept': 'text/html,application/xhtml+xml,application/xml'
     }
- 
+
 
     def get_scholar_url(self):
 
