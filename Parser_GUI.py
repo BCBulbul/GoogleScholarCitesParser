@@ -35,7 +35,7 @@ text.pack()
 b1 = Button(root, text='Is Upgrade',
 command=(lambda e=ents: fetch(e)))
 b1.pack(side=LEFT, padx=5, pady=5)
-b2 = Button(root, text='Show Quotes', command=root.quit())
+b2 = Button(root, text='Show Quotes', command=root._configure(ParserScholar.get_author_name()))
 b2.pack(side=LEFT, padx=5, pady=5)
 b3 = Button(root, text='Show Writers', command=root.quit)
 b3.pack(side=LEFT, padx=5, pady=5)
