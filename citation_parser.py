@@ -87,8 +87,7 @@ class ParserScholar(Author):
                 print(quotes.get_text())
                 counter+=1
 
-
-        get_quotes_list.append("\n ----------------------------------")
+         get_quotes_list.append("\n ----------------------------------")
 
         for i in range(get_quotes_list.__len__()):
             print(get_quotes_list.__getitem__(i))
@@ -176,7 +175,7 @@ class ParserScholar(Author):
         Getting The Quotes Href Link for Retrieve Data from Quotes Html Page
         """
         soup=self.get_citation_page_html()
-        print(soup)
+        #print(soup)
         quotes_href_list=[]
         for a in soup.find_all('a','gsc_a_ac'):
             if a.get('href') is '':
@@ -184,18 +183,18 @@ class ParserScholar(Author):
             else:
               quotes_href_list.append(a.get('href'))
 
-
+        print(quotes_href_list)
         return quotes_href_list
 
 
 
 citation=ParserScholar('Ecir Uğur','Küçüksille')
-#citation.get_citation_page_html()
+citation.get_citation_page_html()
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()
 #citation.get_quotes_href_link()
 #citation.get_quotes()
 # citation.get_quotes_href_link()
 #citation.get_citation_page_href()
-#citation.get_scholar_url()
+## citation.get_scholar_url()
 
