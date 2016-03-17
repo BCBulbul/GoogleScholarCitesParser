@@ -83,8 +83,8 @@ class ParserScholar(Author):
          if r.status_code==200:
             soup=BeautifulSoup(r.content,'html.parser')
             for quotes in soup.find_all('div','gs_ri'):
-                get_quotes_list.append(quotes.string)
-                print(quotes.string)
+                get_quotes_list.append(quotes.get_text())
+                print(quotes.get_text())
                 counter+=1
 
 
@@ -142,7 +142,7 @@ class ParserScholar(Author):
             if r.status_code==200:
                 soup=BeautifulSoup(r.content,'html.parser')
                 for quotes in soup.find_all('div','gs_ri'):
-                    is_upgrade_list.append(quotes.string)
+                    is_upgrade_list.append(quotes.get_text)
                     if len(is_upgrade_list) is not old_length:
                         is_equal=False
                     elif len(is_upgrade_list)>old_length:
@@ -190,12 +190,12 @@ class ParserScholar(Author):
 
 
 citation=ParserScholar('Ecir Uğur','Küçüksille')
-citation.get_citation_page_html()
+#citation.get_citation_page_html()
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()
 #citation.get_quotes_href_link()
-citation.get_quotes()
-citation.get_quotes_href_link()
-citation.get_citation_page_href()
-citation.get_scholar_url()
+#citation.get_quotes()
+# citation.get_quotes_href_link()
+#citation.get_citation_page_href()
+#citation.get_scholar_url()
 
