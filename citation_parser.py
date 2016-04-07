@@ -188,6 +188,7 @@ class ParserScholar(Author):
         return quotes_href_list
 
     def get_author_information(self):
+        """ Get Author Information from Author's Home Page """
          get_author_list=[]
          url="https://scholar.google.com.tr/"+self.get_citation_page_href()
          r=requests.get(url)
@@ -205,6 +206,7 @@ class ParserScholar(Author):
             print(get_author_list.__getitem__(i))
          return get_author_list
     def get_all_quotations_writer_page_href(self):
+        """Get All Quotations Writers Link"""
             url="https://scholar.google.com.tr/"+self.get_citation_page_href()
             r=requests.get(url)
             writer_page_list=[]
