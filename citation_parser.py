@@ -36,6 +36,7 @@ class ParserScholar(Author):
 
         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
         r=requests.get(url)
+        print(r.url)
         if r.status_code==200:
             print("Connection Succesfully")
             soup=BeautifulSoup(r.content,'html.parser')
@@ -121,7 +122,7 @@ class ParserScholar(Author):
                 writer_list.append(div.string)
 
             counter+=1
-
+        print(writer_list)
         return writer_list
 
 
@@ -186,15 +187,48 @@ class ParserScholar(Author):
         print(quotes_href_list)
         return quotes_href_list
 
+    def get_author_information(self):
+         get_author_list=[]
+         url="https://scholar.google.com.tr/"+self.get_citation_page_href()
+         r=requests.get(url)
+         print(r.url)
+         if(r.status_code == 200):
+            print("Connection Successfully")
+            soup=BeautifulSoup(r.content,'html.parser')
+            name = soup.find('div',id='gsc_prf_in').string
+            get_author_list.append(name)
+            for author in soup.find_all('div','gsc_prf_il'):
+                get_author_list.append(author.get_text())
+         else:
+             print("Connection was not Successfully")
+         for i in range(get_author_list.__len__()):
+            print(get_author_list.__getitem__(i))
+         return get_author_list
+    def get_all_quotations_writer_page_href(self):
+            url="https://scholar.google.com.tr/"+self.get_citation_page_href()
+            r=requests.get(url)
+            writer_page_list=[]
+            if r.status_code == 200:
+                print("Connection Successfully")
+                soup = BeautifulSoup(r.content,'html.parser')
+                for link in soup.find_all('a','gsc_rsb_lc'):
+                      writer_page_list.append(link.get('href'))
+            else:
+                print("Connection was not Successfully")
 
-
+            for i in range(writer_page_list.__len__()):
+                print(writer_page_list.__getitem__(i))
+            return writer_page_list
 citation=ParserScholar('Ecir Uğur','Küçüksille')
-citation.get_citation_page_html()
+#citation.get_citation_page_html()
 #citation.get_parsed_bib_text_data_author()
 #citation.get_author_writings()
 #citation.get_quotes_href_link()
 #citation.get_quotes()
 # citation.get_quotes_href_link()
 #citation.get_citation_page_href()
-## citation.get_scholar_url()
-
+#citation.get_scholar_url()
+#citation.get_author_writers()
+citation.get_author_information()
+#citation.get_all_quotations_writer_page_href()
+# url="https://scholar.google.com.tr/"+self.get_citation_page_href() anasayfa yazarın

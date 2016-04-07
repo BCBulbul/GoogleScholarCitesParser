@@ -32,7 +32,7 @@ text = Text(root)
 text.pack()
 b1 = Button(root, text='Is Upgrade',
 command=(lambda e=ents: fetch(e)))
-scholar=ParserScholar('Ecir Uğur','Küçüksille')
+#scholar=ParserScholar('Ecir Uğur','Küçüksille')
 b1.pack(side=LEFT, padx=5, pady=5)
 b2 = Button(root, text='Show Quotes', command=text.insert(INSERT,scholar.get_quotes))
 b2.pack(side=LEFT, padx=5, pady=5)
@@ -44,5 +44,9 @@ b5 = Button(root, text='Show Author Bibliography', command=text.insert(INSERT,sc
 b5.pack(side=LEFT, padx=5, pady=5)
 b6 = Button(root, text='Exit Program', command=root.quit)
 b6.pack(side=LEFT, padx=5, pady=5)
+root.mainloop()
+#quotes_list= scholar.get_quotes()
+
+
 root.mainloop()
 
