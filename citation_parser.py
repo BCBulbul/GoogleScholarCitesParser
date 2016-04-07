@@ -237,4 +237,3 @@ citation=ParserScholar('Ecir Uğur','Küçüksille')
 #citation.get_author_writers()
 citation.get_author_information()
 #citation.get_all_quotations_writer_page_href()
-# url="https://scholar.google.com.tr/"+self.get_citation_page_href() anasayfa yazarın
